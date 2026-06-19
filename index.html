@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FliesenFarbe – Renoviere deine Fliesen selbst</title>
+
+  <!-- ============================================================
+       GOOGLE TAG MANAGER – Snippet (1/2)
+       TODO: Ersetze GTM-XXXXXXX durch eure echte Container-ID
+       ============================================================ -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+  <!-- Ende GTM-Snippet (1/2) -->
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --tile:      #D95F1A;   /* gebranntes Orange – Fliesenton  */
+      --tile-dark: #A3400A;
+      --chalk:     #F7F3EE;   /* heller Kalkputz-Hintergrund     */
+      --grout:     #3A3530;   /* Fugengrau – fast Schwarz        */
+      --grout-mid: #7A736B;
+      --accent:    #4CAF7D;   /* frisches Minzgrün – CTA         */
+      --accent-dk: #359660;
+      --white:     #FFFFFF;
+    }
+
+    /* ── RESET & BASE ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--chalk);
+      color: var(--grout);
+      line-height: 1.6;
+    }
+
+    /* ── UTILITY ─────────────────────────────────────────────── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 4px;
+      font-family: 'Arial', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background .2s, transform .1s;
+    }
+    .btn:active { transform: scale(.97); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--accent-dk); }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--tile-dark);
+      border: 2px solid var(--tile);
+    }
+    .btn-secondary:hover { background: var(--tile); color: var(--white); }
+
+    /* ── HEADER ─────────────────────────────────────────────── */
+    header {
+      background: var(--grout);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 1.4rem;
+      color: var(--tile);
+      letter-spacing: -.02em;
+    }
+    .logo span { color: var(--white); }
+    nav a {
+      color: var(--chalk);
+      text-decoration: none;
+      margin-left: 24px;
+      font-family: 'Arial', sans-serif;
+      font-size: .9rem;
+      opacity: .8;
+      transition: opacity .2s;
+    }
+    nav a:hover { opacity: 1; }
+
+    /* ── HERO ───────────────────────────────────────────────── */
+    .hero {
+      background: var(--tile);
+      /* Tile-grid pattern as SVG background – the signature element */
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='%23D95F1A'/%3E%3Crect x='2' y='2' width='25' height='25' rx='1' fill='%23C45218' opacity='.6'/%3E%3Crect x='33' y='2' width='25' height='25' rx='1' fill='%23C45218' opacity='.6'/%3E%3Crect x='2' y='33' width='25' height='25' rx='1' fill='%23C45218' opacity='.6'/%3E%3Crect x='33' y='33' width='25' height='25' rx='1' fill='%23C45218' opacity='.6'/%3E%3C/svg%3E");
+      background-size: 60px 60px;
+      color: var(--white);
+      padding: 100px 24px 80px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-family: 'Arial', sans-serif;
+      font-size: .8rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      opacity: .85;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: normal;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--chalk);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 2px;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      max-width: 540px;
+      margin: 0 auto 36px;
+      opacity: .92;
+    }
+    .hero .btn {
+      font-size: 1.1rem;
+      padding: 16px 42px;
+    }
+
+    /* ── TRUST BAR ──────────────────────────────────────────── */
+    .trust-bar {
+      background: var(--grout);
+      color: var(--chalk);
+      padding: 14px 24px;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      font-size: .85rem;
+      letter-spacing: .06em;
+      opacity: .95;
+    }
+    .trust-bar span { margin: 0 20px; }
+
+    /* ── PRODUKTE ───────────────────────────────────────────── */
+    .products {
+      padding: 72px 0 80px;
+    }
+    .products h2 {
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: normal;
+      margin-bottom: 8px;
+    }
+    .products .sub {
+      text-align: center;
+      color: var(--grout-mid);
+      font-family: 'Arial', sans-serif;
+      font-size: .95rem;
+      margin-bottom: 48px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(58,53,48,.1);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .product-card:hover {
+      box-shadow: 0 6px 24px rgba(58,53,48,.18);
+      transform: translateY(-3px);
+    }
+
+    .card-swatch {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+    }
+    /* Tile-grid overlay on swatches */
+    .card-swatch::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect x='1' y='1' width='37' height='37' rx='1' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 40px 40px;
+    }
+
+    .card-body { padding: 20px; }
+    .card-body h3 {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+    .card-body .price {
+      font-family: 'Arial', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--tile-dark);
+      margin: 8px 0 16px;
+    }
+    .card-body .price small {
+      font-size: .75rem;
+      color: var(--grout-mid);
+      font-weight: 400;
+    }
+
+    /* ── SCROLL-TARGET SECTION ──────────────────────────────── */
+    .howto {
+      background: var(--grout);
+      color: var(--chalk);
+      padding: 80px 0;
+    }
+    .howto h2 {
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: normal;
+      margin-bottom: 48px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+    }
+    .step { text-align: center; }
+    .step-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .step h3 {
+      font-size: 1rem;
+      font-family: 'Arial', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--tile);
+    }
+    .step p {
+      font-size: .9rem;
+      opacity: .8;
+      line-height: 1.5;
+    }
+
+    /* ── CTA BOTTOM ─────────────────────────────────────────── */
+    .cta-bottom {
+      padding: 80px 24px;
+      text-align: center;
+      background: var(--chalk);
+    }
+    .cta-bottom h2 {
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 16px;
+    }
+    .cta-bottom p {
+      color: var(--grout-mid);
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 32px;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: var(--grout);
+      color: var(--grout-mid);
+      text-align: center;
+      padding: 24px;
+      font-family: 'Arial', sans-serif;
+      font-size: .8rem;
+    }
+    footer a { color: var(--grout-mid); }
+
+    /* ── GTM DEBUG BADGE (nur für SuS sichtbar) ─────────────── */
+    #gtm-debug {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      background: var(--grout);
+      color: var(--chalk);
+      font-family: monospace;
+      font-size: .75rem;
+      padding: 10px 14px;
+      border-radius: 6px;
+      max-width: 280px;
+      z-index: 9999;
+      border-left: 4px solid var(--accent);
+      line-height: 1.6;
+    }
+    #gtm-debug strong { color: var(--accent); display: block; margin-bottom: 4px; }
+    #gtm-debug-log { max-height: 120px; overflow-y: auto; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       GOOGLE TAG MANAGER – Snippet (2/2)  →  direkt nach <body>
+       ============================================================ -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- Ende GTM-Snippet (2/2) -->
+
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Fliesen<span>Farbe</span></div>
+    <nav>
+      <a href="#produkte">Produkte</a>
+      <a href="#anleitung">Anleitung</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Renovierung leicht gemacht</p>
+    <h1>Langweilige Fliesen?<br><em>Nicht mehr lange.</em></h1>
+    <p>Mit unserer Fliesenfarbe streichst du Bad, Küche und Terrasse in einem Wochenende – ohne Handwerker, ohne Chaos.</p>
+    <!-- GTM: CTA-Click-Trigger -->
+    <button
+      class="btn btn-primary"
+      id="hero-cta"
+      data-gtm-event="cta_click"
+      data-gtm-button="Hero CTA – Jetzt starten"
+    >
+      Jetzt starten →
+    </button>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <span>✔ Kostenloser Versand ab 49 €</span>
+    <span>✔ 30 Tage Rückgabe</span>
+    <span>✔ Über 4.800 zufriedene Kunden</span>
+  </div>
+
+  <!-- PRODUKTE -->
+  <section class="products" id="produkte">
+    <div class="container">
+      <h2>Unsere Fliesenfarben</h2>
+      <p class="sub">Deckend, abwaschbar, für Innen &amp; Außen geeignet</p>
+
+      <div class="product-grid">
+
+        <!-- Produkt 1 -->
+        <div class="product-card">
+          <div class="card-swatch" style="background:#D4C5B0;">🏺</div>
+          <div class="card-body">
+            <h3>Kalkweiß Klassik</h3>
+            <p style="font-size:.85rem;color:#7A736B;">Zeitlos, hell, universell einsetzbar. Ideal für Bad &amp; Küche.</p>
+            <div class="price">19,90 € <small>/ 750 ml</small></div>
+            <button
+              class="btn btn-secondary"
+              data-gtm-event="add_to_cart"
+              data-gtm-button="Kalkweiß Klassik"
+              data-gtm-value="19.90"
+            >
+              In den Warenkorb
+            </button>
+          </div>
+        </div>
+
+        <!-- Produkt 2 -->
+        <div class="product-card">
+          <div class="card-swatch" style="background:#6B8FA3;">🌊</div>
+          <div class="card-body">
+            <h3>Atlantikblau</h3>
+            <p style="font-size:.85rem;color:#7A736B;">Ruhige Meeresfarbe – macht jedes Bad zum Spa.</p>
+            <div class="price">19,90 € <small>/ 750 ml</small></div>
+            <button
+              class="btn btn-secondary"
+              data-gtm-event="add_to_cart"
+              data-gtm-button="Atlantikblau"
+              data-gtm-value="19.90"
+            >
+              In den Warenkorb
+            </button>
+          </div>
+        </div>
+
+        <!-- Produkt 3 -->
+        <div class="product-card">
+          <div class="card-swatch" style="background:#7A9E7E;">🌿</div>
+          <div class="card-body">
+            <h3>Salbeigrün</h3>
+            <p style="font-size:.85rem;color:#7A736B;">Natürlich, frisch und im Trend. Für Küche &amp; Wohnbereich.</p>
+            <div class="price">19,90 € <small>/ 750 ml</small></div>
+            <button
+              class="btn btn-secondary"
+              data-gtm-event="add_to_cart"
+              data-gtm-button="Salbeigrün"
+              data-gtm-value="19.90"
+            >
+              In den Warenkorb
+            </button>
+          </div>
+        </div>
+
+        <!-- Produkt 4 – Bundle -->
+        <div class="product-card">
+          <div class="card-swatch" style="background:#3A3530;">🎨</div>
+          <div class="card-body">
+            <h3>Starter-Set (3er)</h3>
+            <p style="font-size:.85rem;color:#7A736B;">Alle drei Farben + Roller + Abklebeband. Direkt loslegen.</p>
+            <div class="price">49,90 € <small>/ Set</small></div>
+            <button
+              class="btn btn-primary"
+              data-gtm-event="add_to_cart"
+              data-gtm-button="Starter-Set 3er"
+              data-gtm-value="49.90"
+            >
+              In den Warenkorb
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ANLEITUNG / SCROLL-SECTION -->
+  <section class="howto" id="anleitung">
+    <div class="container">
+      <h2>In 4 Schritten zur neuen Fliese</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-icon">🧹</span>
+          <h3>1. Reinigen</h3>
+          <p>Fliesen gründlich entfetten und trocknen lassen. Kein Schleifen nötig.</p>
+        </div>
+        <div class="step">
+          <span class="step-icon">🖌️</span>
+          <h3>2. Grundieren</h3>
+          <p>Einen dünnen Grundierungsanstrich auftragen und 2 Stunden trocknen lassen.</p>
+        </div>
+        <div class="step">
+          <span class="step-icon">🎨</span>
+          <h3>3. Streichen</h3>
+          <p>Fliesenfarbe in zwei dünnen Schichten auftragen. 750 ml reichen für ca. 8 m².</p>
+        </div>
+        <div class="step">
+          <span class="step-icon">✨</span>
+          <h3>4. Fertig!</h3>
+          <p>Nach 24 Stunden ist die Farbe vollständig ausgehärtet und abwaschbar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BOTTOM -->
+  <section class="cta-bottom" id="kontakt">
+    <h2>Bereit für deine Renovation?</h2>
+    <p>Bestell noch heute – kostenloser Versand ab 49 €, Lieferung in 2–3 Werktagen.</p>
+    <button
+      class="btn btn-primary"
+      data-gtm-event="cta_click"
+      data-gtm-button="Footer CTA – Jetzt bestellen"
+      data-gtm-value="0"
+    >
+      Jetzt bestellen
+    </button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 FliesenFarbe GmbH · <a href="#">Impressum</a> · <a href="#">Datenschutz</a></p>
+    <p style="margin-top:6px;font-size:.7rem;opacity:.6;">
+      Diese Seite ist eine Lehr-Demo für GTM &amp; GA4. Kein echtes Angebot.
+    </p>
+  </footer>
+
+  <!-- ── GTM DEBUG BADGE ──────────────────────────────────── -->
+  <div id="gtm-debug">
+    <strong>🔍 DataLayer-Monitor</strong>
+    <div id="gtm-debug-log">Noch kein Event ausgelöst…</div>
+  </div>
+
+
+  <!-- ============================================================
+       JAVASCRIPT – DataLayer Events
+       Alle Events werden via dataLayer.push() an GTM übergeben.
+       ============================================================ -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    const debugLog = document.getElementById('gtm-debug-log');
+
+    function logEvent(obj) {
+      const line = document.createElement('div');
+      line.style.borderBottom = '1px solid #555';
+      line.style.paddingBottom = '4px';
+      line.style.marginBottom = '4px';
+      line.textContent = '▶ ' + JSON.stringify(obj);
+      debugLog.prepend(line);
+    }
+
+    // ── 1. CLICK-EVENTS (alle Buttons mit data-gtm-event) ────
+    document.querySelectorAll('[data-gtm-event]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var eventName  = btn.dataset.gtmEvent;
+        var buttonName = btn.dataset.gtmButton  || btn.textContent.trim();
+        var value      = parseFloat(btn.dataset.gtmValue) || 0;
+
+        var payload = {
+          event:        eventName,
+          button_name:  buttonName,
+          value:        value,
+          currency:     'EUR'
+        };
+
+        window.dataLayer.push(payload);
+        logEvent(payload);
+
+        // Visuelles Feedback
+        btn.textContent = eventName === 'add_to_cart' ? '✔ Hinzugefügt!' : '✔ Los geht\'s!';
+        setTimeout(function() {
+          btn.textContent = btn.dataset.gtmButton || buttonName;
+        }, 2000);
+      });
+    });
+
+    // ── 2. SCROLL-EVENT (bei 50 % Seitentiefe, einmalig) ────
+    var scrollFired = false;
+    window.addEventListener('scroll', function() {
+      if (scrollFired) return;
+      var scrolled   = window.scrollY + window.innerHeight;
+      var pageHeight = document.documentElement.scrollHeight;
+      if (scrolled / pageHeight >= 0.5) {
+        scrollFired = true;
+        var payload = {
+          event:        'scroll_depth',
+          scroll_depth: '50%'
+        };
+        window.dataLayer.push(payload);
+        logEvent(payload);
+      }
+    });
+
+    // ── 3. PAGE VIEW (beim Laden) ────────────────────────────
+    (function() {
+      var payload = {
+        event:     'page_view',
+        page_path: window.location.pathname || '/'
+      };
+      window.dataLayer.push(payload);
+      logEvent(payload);
+    })();
+  </script>
+
+</body>
+</html>
